@@ -7,6 +7,8 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import static me.kieranwallbanks.barrymore.mysql.Tables.*;
+
+import me.kieranwallbanks.barrymore.command.BaseCommand;
 import me.kieranwallbanks.barrymore.util.BukkitDevUtilities;
 import me.kieranwallbanks.barrymore.util.EncryptionUtilities;
 import me.kieranwallbanks.barrymore.util.LangUtilities;
@@ -32,7 +34,7 @@ public class Listener extends ListenerAdapter {
         barrymore = instance;
 
         try {
-            for(Class<? extends BaseCommand> clazz : ReflectionsUtilities.getSubtypesOf(BaseCommand.class, "me.kieranwallbanks.barrymore.command", ClassLoader.getSystemClassLoader())) {
+            for(Class<? extends BaseCommand> clazz : ReflectionsUtilities.getSubtypesOf(BaseCommand.class, "me.kieranwallbanks.barrymore.command.defaults", ClassLoader.getSystemClassLoader())) {
                 BaseCommand command = clazz.getConstructor(Barrymore.class).newInstance(barrymore);
                 commands.put(command.getName(), command);
             }
@@ -120,11 +122,11 @@ public class Listener extends ListenerAdapter {
             case 5:
                 String message5 = event.getMessage().toLowerCase();
                 if(LangUtilities.isAffirmative(message5)) {
-                    event.getUser().sendMessage("Wonderful. So you are " + BukkitDevUtilities.getUsernameFromAPIKey(userRegistrationInformation.get(event.getUser().getNick()).DBO_API) + ". Is that correct?");
+                    event.getUser().sendMessage("Wonderful. So you are " + BukkitDevUtilities.getUsernameFromAPIKey(userRegistrationInformation.get(event.getUser().getNick()).DBO_API) + " on Bukkit Dev. Is that correct?");
                     userRegistration.put(event.getUser().getNick(), 6);
                 } else if(LangUtilities.isDissenting(message5)) {
                     event.getUser().sendMessage("That is a shame. What is your Bukkit Dev API key?");
-                    userRegistration.put(event.getUser().getNick(), 5);
+                    userRegistration.put(event.getUser().getNick(), 4);
                 } else {
                     event.getUser().sendMessage("Sorry, one didn't quite understand that. Could you repeat it?");
                 }
@@ -133,8 +135,8 @@ public class Listener extends ListenerAdapter {
                 String message6 = event.getMessage().toLowerCase();
                 if(LangUtilities.isAffirmative(message6)) {
                     event.getUser().sendMessage("Excellent! All one requires now is a master password that one will use to encrypt all other passwords and your API key.");
-                    event.getUser().sendMessage("To be more precise, your master password will be stored as a SHA-512 hash.");
-                    event.getUser().sendMessage("One will encrypt your passwords using PBE with MD5 and DES with your master password hash as the salt.");
+                    event.getUser().sendMessage("To be more precise, your master password will first be encrypted as a SHA-512 hash.");
+                    event.getUser().sendMessage("One will encrypt your passwords using PBE with MD5 and DES with your encrypted master password as the secret key password.");
                     event.getUser().sendMessage("Your master password will not be stored anywhere but in your brain.");
                     event.getUser().sendMessage("If you require more information, please do not hesitate to contact Kezz101.");
                     event.getUser().sendMessage("What would you like your master password to be? I will only ask you once, so please validate that it is correct.");
@@ -152,18 +154,26 @@ public class Listener extends ListenerAdapter {
                 event.getUser().sendMessage("You have now completed your registration! I will start storing the required information.");
                 event.getUser().sendMessage("Please do not talk to me during this time. One needs to concentrate!");
 
-                UserRegistrationInformation info = userRegistrationInformation.get(event.getUser().getNick());
-                String masterPass = EncryptionUtilities.sha512(info.MASTER_PASS.getBytes("UTF-8"));
-                String fboPass = EncryptionUtilities.encrypt(info.FBO_PASS.getBytes("UTF-8"), event.getUser().getNick().getBytes("UTF-8"), masterPass);
-                String dboAPI = EncryptionUtilities.encrypt(info.DBO_API.getBytes("UTF-8"), event.getUser().getNick().getBytes("UTF-8"), masterPass);
+                try {
+                    UserRegistrationInformation info = userRegistrationInformation.get(event.getUser().getNick());
+                    String masterPass = EncryptionUtilities.sha512(info.MASTER_PASS.getBytes("UTF-8"));
+                    String fboPass = EncryptionUtilities.encrypt(info.FBO_PASS.getBytes("UTF-8"), event.getUser().getNick().getBytes("UTF-8"), masterPass);
+                    String dboAPI = EncryptionUtilities.encrypt(info.DBO_API.getBytes("UTF-8"), event.getUser().getNick().getBytes("UTF-8"), masterPass);
 
-                barrymore.getMySQLContext().insertInto(USERS, USERS.IRC, USERS.FBO, USERS.FBO_PASS, USERS.DBO_API, USERS.THEME).values(event.getUser().getNick(), info.FBO, fboPass, dboAPI, "british butler");
-                event.getUser().sendMessage("You are now registered. Ask for help if you would like an introduction to my features.");
-                userRegistration.remove(event.getUser().getNick());
-                userRegistrationInformation.remove(event.getUser().getNick());
+                    barrymore.getMySQLContext().insertInto(USERS, USERS.IRC, USERS.FBO, USERS.FBO_PASS, USERS.DBO_API, USERS.THEME).values(event.getUser().getNick(), info.FBO, fboPass, dboAPI, "british butler").execute();
+                    barrymore.reloadUsers();
+
+                    event.getUser().sendMessage("You are now registered. Ask for help if you would like an introduction to my features.");
+                } catch(Exception e) {
+                    event.getUser().sendMessage("Shucks! One has encountered an error during your registration. Terribly sorry, but one is going to have to ask you to register again.");
+                    // TODO email me?
+                } finally {
+                    userRegistration.remove(event.getUser().getNick());
+                    userRegistrationInformation.remove(event.getUser().getNick());
+                }
                 break;
             case 8:
-                event.getUser().sendMessage("One moment please, one is triflingly busy working out SHA hashes from my head.");
+                event.getUser().sendMessage("One moment please, one is triflingly busy working out SHA hashes in my head.");
                 break;
         }
     }

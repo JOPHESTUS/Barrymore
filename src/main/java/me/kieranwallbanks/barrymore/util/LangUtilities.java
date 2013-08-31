@@ -24,7 +24,7 @@ public class LangUtilities {
      * @return {@code true} if the string is affirmative
      */
     public static boolean isAffirmative(String string) {
-        string = string.toLowerCase().trim().replaceAll("([a-z]+)[?:!.,;]*", "");
+        string = string.toLowerCase().trim().replaceAll("\\W", "");
         return string.startsWith("affirmative") || string.startsWith("amen") ||
                string.startsWith("fine") || string.startsWith("good") ||
                string.startsWith("ok") || string.startsWith("true") ||
@@ -40,7 +40,8 @@ public class LangUtilities {
                string.startsWith("sure") || string.startsWith("undoubtedly") ||
                string.startsWith("unquestionably") || string.startsWith("very well") ||
                string.startsWith("willingly") || string.startsWith("without fail") ||
-               string.startsWith("yup") || string.startsWith("yep");
+               string.startsWith("yup") || string.startsWith("yep") ||
+               string.startsWith("yes");
     }
 
     /**
@@ -50,8 +51,8 @@ public class LangUtilities {
      *
      * @return {@code true} if the string is dissenting
      */
-    public static boolean isDissenting(String string) { // This one's easier ;)
-        string = string.toLowerCase().trim().replaceAll("([a-z]+)[?:!.,;]*", "");
+    public static boolean isDissenting(String string) { // This one is easier ;)
+        string = string.toLowerCase().trim().replaceAll("\\W", "");
         return string.startsWith("no") || string.startsWith("nix") ||
                string.startsWith("negative") || string.startsWith("never") ||
                string.startsWith("not");

@@ -2,6 +2,7 @@ package me.kieranwallbanks.barrymore.util;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.Arrays;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -64,7 +65,7 @@ public class EncryptionUtilities {
         SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBEWithMD5AndDES");
         SecretKey key = keyFactory.generateSecret(new PBEKeySpec(password.toCharArray()));
         Cipher pbeCipher = Cipher.getInstance("PBEWithMD5AndDES");
-        pbeCipher.init(Cipher.ENCRYPT_MODE, key, new PBEParameterSpec(salt, 20));
+        pbeCipher.init(Cipher.ENCRYPT_MODE, key, new PBEParameterSpec(constructCorrectSalt(salt), 20));
         return base64Encode(pbeCipher.doFinal(toEncrypt));
     }
 
@@ -84,8 +85,27 @@ public class EncryptionUtilities {
         SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBEWithMD5AndDES");
         SecretKey key = keyFactory.generateSecret(new PBEKeySpec(password.toCharArray()));
         Cipher pbeCipher = Cipher.getInstance("PBEWithMD5AndDES");
-        pbeCipher.init(Cipher.DECRYPT_MODE, key, new PBEParameterSpec(salt, 20));
+        pbeCipher.init(Cipher.DECRYPT_MODE, key, new PBEParameterSpec(constructCorrectSalt(salt), 20));
         return new String(pbeCipher.doFinal(base64Decode(toDecrypt)), "UTF-8");
+    }
+
+    /**
+     * Constructs an 8 long salt from the given byte array. If the given array
+     * is too long it will be shortened. If it is to small it will be padded
+     * with bytes.
+     *
+     * @param bytes the bytes that need turning into a salt
+     *
+     * @return the correct length salt
+     */
+    public static byte[] constructCorrectSalt(byte[] bytes) {
+        if(bytes.length == 8) {
+            return bytes;
+        } else if(bytes.length > 8) {
+            return Arrays.copyOfRange(bytes, 0, 7);
+        } else {
+            return Arrays.copyOf(bytes, 8);
+        }
     }
 
 }
