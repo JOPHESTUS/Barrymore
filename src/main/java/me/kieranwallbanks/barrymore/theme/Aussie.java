@@ -2,11 +2,11 @@ package me.kieranwallbanks.barrymore.theme;
 
 import me.kieranwallbanks.barrymore.Theme;
 
-public class BritishButler implements Theme {
+public class Aussie implements Theme {
 
     @Override
     public String getName() {
-        return "Aussie";
+        return "aussie";
     }
 
     @Override
