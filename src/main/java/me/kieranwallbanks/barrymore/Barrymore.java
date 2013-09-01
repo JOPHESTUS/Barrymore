@@ -8,6 +8,7 @@ import me.kieranwallbanks.barrymore.configuration.Configuration;
 import me.kieranwallbanks.barrymore.mysql.MySQL;
 import me.kieranwallbanks.barrymore.mysql.tables.records.UsersRecord;
 import me.kieranwallbanks.barrymore.theme.Theme;
+import me.kieranwallbanks.barrymore.theme.ThemeManager;
 import me.kieranwallbanks.barrymore.util.ReflectionsUtilities;
 import org.jooq.DSLContext;
 import org.pircbotx.PircBotX;
@@ -21,6 +22,7 @@ public class Barrymore {
     private final Configuration config;
     private final DSLContext context;
     private final PircBotX bot;
+    private final ThemeManager themeManager;
 
     private boolean openForRegistration = true;
     private final Map<String, UsersRecord> registeredUsers = new HashMap<String, UsersRecord>();
@@ -33,6 +35,7 @@ public class Barrymore {
         config = new Configuration(this);
         context = MySQL.getContext(config);
         bot = new PircBotX();
+        themeManager = new ThemeManager(this);
 
         try {
             bot.setName(config.IRC_Nickname);
@@ -76,7 +79,7 @@ public class Barrymore {
     }
 
     /**
-     * Gets the MySQL context for use ith jOOQ
+     * Gets the MySQL context for use with jOOQ
      *
      * @return the {@link DSLContext}
      */
@@ -91,6 +94,15 @@ public class Barrymore {
      */
     public PircBotX getBot() {
         return bot;
+    }
+
+    /**
+     * Gets the {@link ThemeManager} currently in use
+     *
+     * @return the ThemeManager
+     */
+    public ThemeManager getThemeManager() {
+        return themeManager;
     }
 
     /**
