@@ -4,12 +4,11 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import me.kieranwallbanks.barrymore.command.CommandListener;
 import me.kieranwallbanks.barrymore.configuration.Configuration;
 import me.kieranwallbanks.barrymore.mysql.MySQL;
 import me.kieranwallbanks.barrymore.mysql.tables.records.UsersRecord;
-import me.kieranwallbanks.barrymore.theme.Theme;
 import me.kieranwallbanks.barrymore.theme.ThemeManager;
-import me.kieranwallbanks.barrymore.util.ReflectionsUtilities;
 import org.jooq.DSLContext;
 import org.pircbotx.PircBotX;
 import org.pircbotx.User;
@@ -41,11 +40,11 @@ public class Barrymore {
             bot.setName(config.IRC_Nickname);
             bot.setLogin("Barrymore");
             bot.identify(config.IRC_NickServPass);
-            bot.setVerbose(true);
+            bot.setVerbose(false);
             bot.setCapEnabled(true);
             bot.connect(config.IRC_DefServer);
             bot.joinChannel(config.IRC_DefChannel);
-            bot.getListenerManager().addListener(new Listener(this));
+            bot.getListenerManager().addListener(new CommandListener(this));
         } catch (Exception e) {
             e.printStackTrace(); // TODO better exception handling. Maybe email me?
             System.exit(1);

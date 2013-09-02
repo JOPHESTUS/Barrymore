@@ -35,11 +35,12 @@ public class ThemeManager {
 
             while(entries.hasMoreElements()) {
                 ZipEntry entry = entries.nextElement();
-                if(entry.getName().matches(".*\\.theme\\.properties")) {
+
+                if(entry.getName().matches("themes/.*\\.theme\\.properties")) {
                     Properties properties = new Properties();
                     properties.load(zip.getInputStream(entry));
 
-                    Theme theme = new Theme(entry.getName().replace(".theme.properties", ""), properties);
+                    Theme theme = new Theme(entry.getName().replace("themes/", "").replace(".theme.properties", "").replace("_", " "), properties);
 
                     themeMap.put(theme.getName(), theme);
                 }

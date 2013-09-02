@@ -1,5 +1,7 @@
 package me.kieranwallbanks.barrymore.util;
 
+import java.util.Collection;
+
 /**
  * General String based utility class
  */
@@ -56,6 +58,68 @@ public class LangUtilities {
         return string.startsWith("no") || string.startsWith("nix") ||
                string.startsWith("negative") || string.startsWith("never") ||
                string.startsWith("not");
+    }
+
+    /**
+     * Joins an array with the specified join string
+     *
+     * @param array the array to join
+     * @param joinString the string to join the array with
+     *
+     * @return a string containing the joined array
+     */
+    public static String joinArray(Object[] array, String joinString) {
+        return joinArray(array, joinString, joinString);
+    }
+
+    /**
+     * Joins an array with the specified join string
+     *
+     * @param array the array to join
+     * @param joinString the string to join the array with
+     * @param finalJoinString the string to join at the final join
+     *
+     * @return a string containing the joined array
+     */
+    public static String joinArray(Object[] array, String joinString, String finalJoinString) {
+        StringBuilder builder = new StringBuilder();
+
+        for(int i = 0; i < array.length; i++) {
+            builder.append(array[i]);
+
+            if(i == array.length - 2) {
+                builder.append(finalJoinString);
+            } else if(i < array.length - 2) {
+                builder.append(joinString);
+            }
+        }
+
+        return builder.toString();
+    }
+
+    /**
+     * Joins a collection with the specified join string
+     *
+     * @param collection the array to join
+     * @param joinString the string to join the collection with
+     *
+     * @return a string containing the joined collection
+     */
+    public static String joinCollection(Collection<Object> collection, String joinString) {
+        return joinCollection(collection, joinString, joinString);
+    }
+
+    /**
+     * Joins an collection with the specified join string
+     *
+     * @param collection the array to join
+     * @param joinString the string to join the collection with
+     * @param finalJoinString the string to join at the final join
+     *
+     * @return a string containing the joined collection
+     */
+    public static String joinCollection(Collection<Object> collection, String joinString, String finalJoinString) {
+        return joinArray(collection.toArray(), joinString, finalJoinString);
     }
 
 }
