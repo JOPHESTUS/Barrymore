@@ -2,6 +2,7 @@ package me.kieranwallbanks.barrymore.theme;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.SortedMap;
@@ -73,6 +74,15 @@ public class ThemeManager {
      */
     public Theme getThemeByName(String name) {
         return themeMap.get(name);
+    }
+
+    /**
+     * Gets all loaded {@link Theme}s
+     *
+     * @return the themes
+     */
+    public Collection<Theme> getThemes() {
+        return themeMap.values();
     }
 
 }

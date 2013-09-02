@@ -91,7 +91,7 @@ public class CommandListener extends ListenerAdapter {
         }
 
         Theme theme = barrymore.getThemeManager().getUsersTheme(event.getUser());
-        String message = event.getMessage();
+        String message = event.getMessage().toLowerCase();
 
         if(userCommandConfirmation.containsKey(event.getUser().getNick())) {
             if(LangUtilities.isAffirmative(message)) {

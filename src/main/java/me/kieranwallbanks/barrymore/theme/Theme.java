@@ -41,6 +41,9 @@ public class Theme {
     public String COMMAND_NOT_FOUND()     { return get("CommandNotFound");}
     public String NO_PERMISSION_MESSAGE() { return get("NoPermissionMessage"); }
 
+    // START LIST THEMES
+    public String THEME_LIST()            { return get("ThemeList"); }
+
     // START THEME CHANGE
     public String THEME_CHANGER_CHECK()   { return get("ThemeChangeCheck"); }
     public String THEME_DOESNT_EXIST()    { return get("ThemeDoesntExist"); }
@@ -49,6 +52,11 @@ public class Theme {
     // START PRIVATE
     private String get(String string) {
         return properties.getProperty(string, "Sorry, I couldn't find this string in the theme " + name + ". Either update the theme or go and bug the authors (" + getAuthors() + ").");
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 
 }

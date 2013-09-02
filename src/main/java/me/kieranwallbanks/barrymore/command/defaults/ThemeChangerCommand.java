@@ -7,6 +7,8 @@ import me.kieranwallbanks.barrymore.command.InstantCommandListener;
 import me.kieranwallbanks.barrymore.theme.Theme;
 import org.pircbotx.User;
 
+import static me.kieranwallbanks.barrymore.mysql.Tables.*;
+
 public class ThemeChangerCommand extends BaseCommand {
     private Barrymore barrymore;
 
@@ -18,7 +20,7 @@ public class ThemeChangerCommand extends BaseCommand {
         setName("theme changer");
         setDescription("lets me change your theme");
         setConfusion("change your theme");
-        setCaller(new CommandCaller().contains("change theme").contains("theme change"));
+        setCaller(new CommandCaller().contains("change theme").contains("theme change").contains("change my theme"));
     }
 
     @Override
@@ -36,8 +38,9 @@ public class ThemeChangerCommand extends BaseCommand {
                 if(potentialTheme == null) {
                     sender.sendMessage(theme.THEME_DOESNT_EXIST());
                 } else {
-                    barrymore.getUsersRecord(sender).setTheme(potentialTheme.getName());
-                    sender.sendMessage(potentialTheme.THEME_CHANGED());
+                    barrymore.getUsersRecord(sender).setTheme(potentialTheme.getName());             // First update locally
+                    sender.sendMessage(potentialTheme.THEME_CHANGED());                              // Then send a message
+                    barrymore.getMySQLContext().update(USERS).set(barrymore.getUsersRecord(sender)); // Then update the database
                 }
             }
 

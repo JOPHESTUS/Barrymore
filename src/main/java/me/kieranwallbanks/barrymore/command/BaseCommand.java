@@ -49,4 +49,9 @@ public abstract class BaseCommand {
         this.confusion = confusion;
     }
 
+    @Override
+    public String toString() {
+        return  getConfusion();
+    }
+
 }

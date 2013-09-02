@@ -105,7 +105,7 @@ public class LangUtilities {
      *
      * @return a string containing the joined collection
      */
-    public static String joinCollection(Collection<Object> collection, String joinString) {
+    public static String joinCollection(Collection<?> collection, String joinString) {
         return joinCollection(collection, joinString, joinString);
     }
 
@@ -118,7 +118,7 @@ public class LangUtilities {
      *
      * @return a string containing the joined collection
      */
-    public static String joinCollection(Collection<Object> collection, String joinString, String finalJoinString) {
+    public static String joinCollection(Collection<?> collection, String joinString, String finalJoinString) {
         return joinArray(collection.toArray(), joinString, finalJoinString);
     }
 
