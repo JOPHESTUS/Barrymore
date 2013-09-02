@@ -64,4 +64,15 @@ public class ThemeManager {
         return theme == null ? themeMap.get("british butler") : theme;
     }
 
+    /**
+     * Gets a {@link Theme} by its name
+     *
+     * @param name the theme name
+     *
+     * @return the theme or {@code null} if not found
+     */
+    public Theme getThemeByName(String name) {
+        return themeMap.get(name);
+    }
+
 }

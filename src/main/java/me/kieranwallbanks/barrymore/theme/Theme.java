@@ -35,11 +35,16 @@ public class Theme {
     public String EXIT() { return get("Exit"); }
 
     // START COMMAND
-    public String COMMAND_CONFIRMATION() { return get("CommandConfirmation"); }
-    public String COMMAND_REJECTION() { return get("CommandRejection"); }
-    public String COMMAND_CONFUSION() { return get("CommandConfusion"); }
-    public String COMMAND_NOT_FOUND() { return get("CommandNotFound");}
+    public String COMMAND_CONFIRMATION()  { return get("CommandConfirmation"); }
+    public String COMMAND_REJECTION()     { return get("CommandRejection"); }
+    public String COMMAND_CONFUSION()     { return get("CommandConfusion"); }
+    public String COMMAND_NOT_FOUND()     { return get("CommandNotFound");}
     public String NO_PERMISSION_MESSAGE() { return get("NoPermissionMessage"); }
+
+    // START THEME CHANGE
+    public String THEME_CHANGER_CHECK()   { return get("ThemeChangeCheck"); }
+    public String THEME_DOESNT_EXIST()    { return get("ThemeDoesntExist"); }
+    public String THEME_CHANGED()         { return get("ThemeChanged"); }
 
     // START PRIVATE
     private String get(String string) {

@@ -16,6 +16,7 @@ import me.kieranwallbanks.barrymore.util.BukkitDevUtilities;
 import me.kieranwallbanks.barrymore.util.EncryptionUtilities;
 import me.kieranwallbanks.barrymore.util.LangUtilities;
 import me.kieranwallbanks.barrymore.util.ReflectionsUtilities;
+import org.pircbotx.User;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.PrivateMessageEvent;
 
@@ -35,6 +36,7 @@ public class CommandListener extends ListenerAdapter {
     private final Map<String, Integer> userRegistration = new HashMap<String, Integer>();
     private final Map<String, UserRegistrationInformation> userRegistrationInformation = new HashMap<String, UserRegistrationInformation>();
     private final Map<String, BaseCommand> userCommandConfirmation = new HashMap<String, BaseCommand>();
+    private final Map<String, InstantCommandListener> instantCommandListenerMap = new HashMap<String, InstantCommandListener>();
 
     /**
      * Constructs a new instance of {@link CommandListener}
@@ -53,6 +55,17 @@ public class CommandListener extends ListenerAdapter {
             e.printStackTrace(); // TODO better exception handling. Maybe email me?
             System.exit(1);
         }
+    }
+
+    /**
+     * Registers an {@link InstantCommandListener} to be called when the user
+     * next PMs Barrymore
+     *
+     * @param user the user
+     * @param instantCommandListener the instantCommandListener
+     */
+    public void registerInstantCommandListener(User user, InstantCommandListener instantCommandListener) {
+        instantCommandListenerMap.put(user.getNick(), instantCommandListener);
     }
 
     @Override
@@ -88,6 +101,11 @@ public class CommandListener extends ListenerAdapter {
                 userCommandConfirmation.remove(event.getUser().getNick());
             }
 
+            return;
+        }
+
+        if(instantCommandListenerMap.containsKey(event.getUser().getNick())) {
+            instantCommandListenerMap.remove(event.getUser().getNick()).onPrivateMessage(event.getMessage());
             return;
         }
 
@@ -130,7 +148,7 @@ public class CommandListener extends ListenerAdapter {
 
     }
 
-    public void handleRegistrationAttempt(PrivateMessageEvent event) throws Exception {
+    private void handleRegistrationAttempt(PrivateMessageEvent event) throws Exception {
         switch(userRegistration.get(event.getUser().getNick()) == null ? 0 : userRegistration.get(event.getUser().getNick())) {
             case 0: // Checking nickname
                 String message0 = event.getMessage().toLowerCase();

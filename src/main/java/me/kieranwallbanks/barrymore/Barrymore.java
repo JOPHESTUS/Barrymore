@@ -22,6 +22,7 @@ public class Barrymore {
     private final DSLContext context;
     private final PircBotX bot;
     private final ThemeManager themeManager;
+    private final CommandListener commandListener;
 
     private boolean openForRegistration = true;
     private final Map<String, UsersRecord> registeredUsers = new HashMap<String, UsersRecord>();
@@ -35,6 +36,7 @@ public class Barrymore {
         context = MySQL.getContext(config);
         bot = new PircBotX();
         themeManager = new ThemeManager(this);
+        commandListener = new CommandListener(this);
 
         try {
             bot.setName(config.IRC_Nickname);
@@ -44,7 +46,7 @@ public class Barrymore {
             bot.setCapEnabled(true);
             bot.connect(config.IRC_DefServer);
             bot.joinChannel(config.IRC_DefChannel);
-            bot.getListenerManager().addListener(new CommandListener(this));
+            bot.getListenerManager().addListener(commandListener);
         } catch (Exception e) {
             e.printStackTrace(); // TODO better exception handling. Maybe email me?
             System.exit(1);
@@ -102,6 +104,15 @@ public class Barrymore {
      */
     public ThemeManager getThemeManager() {
         return themeManager;
+    }
+
+    /**
+     * Gets the {@link CommandListener} currently in use
+     *
+     * @return what do you think
+     */
+    public CommandListener getCommandListener() {
+        return commandListener;
     }
 
     /**
