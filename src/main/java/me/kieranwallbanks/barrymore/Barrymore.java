@@ -1,6 +1,7 @@
 package me.kieranwallbanks.barrymore;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -164,6 +165,15 @@ public class Barrymore {
      */
     public UsersRecord getUsersRecord(User user) {
         return registeredUsers.get(user.getNick());
+    }
+
+    /**
+     * Gets a {@link Collection} of {@link UsersRecord} for all registered users
+     *
+     * @return the collection
+     */
+    public Collection<UsersRecord> getUsers() {
+        return registeredUsers.values();
     }
 
 }

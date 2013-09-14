@@ -26,6 +26,7 @@ public class ShutdownCommand extends BaseCommand {
 
         if(barrymore.getConfiguration().USERS_Admins.contains(sender.getNick())) {
             sender.sendMessage(theme.EXIT());
+            barrymore.getBot().shutdown(true);
             System.exit(0);
         } else {
             sender.sendMessage(theme.NO_PERMISSION_MESSAGE());

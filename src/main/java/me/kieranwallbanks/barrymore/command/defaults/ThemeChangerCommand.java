@@ -38,9 +38,9 @@ public class ThemeChangerCommand extends BaseCommand {
                 if(potentialTheme == null) {
                     sender.sendMessage(theme.THEME_DOESNT_EXIST());
                 } else {
-                    barrymore.getUsersRecord(sender).setTheme(potentialTheme.getName());             // First update locally
-                    sender.sendMessage(potentialTheme.THEME_CHANGED());                              // Then send a message
-                    barrymore.getMySQLContext().update(USERS).set(barrymore.getUsersRecord(sender)); // Then update the database
+                    barrymore.getUsersRecord(sender).setTheme(potentialTheme.getName());                       // First update locally
+                    sender.sendMessage(potentialTheme.THEME_CHANGED());                                        // Then send a message
+                    barrymore.getMySQLContext().update(USERS).set(barrymore.getUsersRecord(sender)).execute(); // Then update the database
                 }
             }
 
