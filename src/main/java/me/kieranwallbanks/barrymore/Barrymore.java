@@ -1,20 +1,14 @@
 package me.kieranwallbanks.barrymore;
 
-import java.io.File;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import me.kieranwallbanks.barrymore.command.CommandListener;
 import me.kieranwallbanks.barrymore.configuration.Configuration;
 import me.kieranwallbanks.barrymore.mysql.MySQL;
-import me.kieranwallbanks.barrymore.mysql.tables.records.UsersRecord;
 import me.kieranwallbanks.barrymore.theme.ThemeManager;
+import me.kieranwallbanks.barrymore.user.UserManager;
 import org.jooq.DSLContext;
 import org.pircbotx.PircBotX;
-import org.pircbotx.User;
 
-import static me.kieranwallbanks.barrymore.mysql.Tables.USERS;
+import java.io.File;
 
 public class Barrymore {
     private static Barrymore INSTANCE;
@@ -24,9 +18,7 @@ public class Barrymore {
     private final PircBotX bot;
     private final ThemeManager themeManager;
     private final CommandListener commandListener;
-
-    private boolean openForRegistration = true;
-    private final Map<String, UsersRecord> registeredUsers = new HashMap<String, UsersRecord>();
+    private final UserManager userManager;
 
     public static void main(String[] args) {
         INSTANCE = new Barrymore();
@@ -37,6 +29,7 @@ public class Barrymore {
         context = MySQL.getContext(config);
         bot = new PircBotX();
         themeManager = new ThemeManager(this);
+        userManager = new UserManager(this);
         commandListener = new CommandListener(this);
 
         try {
@@ -53,7 +46,7 @@ public class Barrymore {
             System.exit(1);
         }
 
-        reloadUsers();
+        userManager.reloadUsers();
     }
 
     /**
@@ -116,64 +109,8 @@ public class Barrymore {
         return commandListener;
     }
 
-    /**
-     * Checks if a user is a registered user
-     *
-     * @param user the user
-     *
-     * @return {@code true} if they are a registered user
-     */
-    public boolean isUserRegistered(User user) {
-        return registeredUsers.containsKey(user.getNick());
-    }
-
-    /**
-     * Gets if Barrymore is open for registration
-     *
-     * @return {@code true} if Barrymore is open for registration
-     */
-    public boolean isOpenForRegistration() {
-        return openForRegistration;
-    }
-
-    /**
-     * Sets whether Barrymore is open for registration
-     *
-     * @param openForRegistration {@code true} if Barrymore is open for registration
-     */
-    public void setOpenForRegistration(boolean openForRegistration) {
-        this.openForRegistration = openForRegistration;
-    }
-
-    /**
-     * Reloads the registered user map
-     */
-    public void reloadUsers() {
-        registeredUsers.clear();
-
-        for(UsersRecord record : context.select().from(USERS).fetchInto(UsersRecord.class)) {
-            registeredUsers.put(record.getIrc(), record);
-        }
-    }
-
-    /**
-     * Gets the {@link UsersRecord} linked with the associated user
-     *
-     * @param user the user
-     *
-     * @return the UsersRecord or null if not found
-     */
-    public UsersRecord getUsersRecord(User user) {
-        return registeredUsers.get(user.getNick());
-    }
-
-    /**
-     * Gets a {@link Collection} of {@link UsersRecord} for all registered users
-     *
-     * @return the collection
-     */
-    public Collection<UsersRecord> getUsers() {
-        return registeredUsers.values();
+    public UserManager getUserManager() {
+        return userManager;
     }
 
 }

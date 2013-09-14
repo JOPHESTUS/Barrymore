@@ -1,17 +1,12 @@
 package me.kieranwallbanks.barrymore.theme;
 
-import java.io.File;
-import java.net.URISyntaxException;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.Properties;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-
 import me.kieranwallbanks.barrymore.Barrymore;
 import org.pircbotx.User;
+
+import java.io.File;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * Class that manages themes.
@@ -61,7 +56,7 @@ public class ThemeManager {
      * @return the theme
      */
     public Theme getUsersTheme(User user) {
-        Theme theme = themeMap.get(barrymore.getUsersRecord(user).getTheme());
+        Theme theme = themeMap.get(barrymore.getUserManager().getUser(user.getNick()).getTheme());
         return theme == null ? themeMap.get("british butler") : theme;
     }
 

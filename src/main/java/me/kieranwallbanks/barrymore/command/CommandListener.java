@@ -234,7 +234,7 @@ public class CommandListener extends ListenerAdapter {
                     String dboAPI = EncryptionUtilities.encrypt(info.DBO_API.getBytes("UTF-8"), event.getUser().getNick().getBytes("UTF-8"), masterPass);
 
                     barrymore.getMySQLContext().insertInto(USERS, USERS.IRC, USERS.FBO, USERS.FBO_PASS, USERS.DBO_API, USERS.THEME).values(event.getUser().getNick(), info.FBO, fboPass, dboAPI, "british butler").execute();
-                    barrymore.reloadUsers();
+                    barrymore.getUserManager().reloadUsers();
 
                     event.getUser().sendMessage("You are now registered. Ask for help if you would like an introduction to my features.");
                 } catch(Exception e) {
