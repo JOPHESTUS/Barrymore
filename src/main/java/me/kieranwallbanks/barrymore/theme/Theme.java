@@ -2,8 +2,6 @@ package me.kieranwallbanks.barrymore.theme;
 
 import java.util.Properties;
 
-import javax.swing.UIManager;
-
 /**
  * Represents a loaded theme file
  */
@@ -48,6 +46,10 @@ public class Theme {
     public String THEME_CHANGER_CHECK()   { return get("ThemeChangeCheck"); }
     public String THEME_DOESNT_EXIST()    { return get("ThemeDoesntExist"); }
     public String THEME_CHANGED()         { return get("ThemeChanged"); }
+
+    // START RC CHANGE
+    public String RC_CHANGE_CHECK()       { return get("RCChangeCheck"); }
+    public String RC_CHANGED()            { return get("RCChanged"); }
 
     // START PRIVATE
     private String get(String string) {

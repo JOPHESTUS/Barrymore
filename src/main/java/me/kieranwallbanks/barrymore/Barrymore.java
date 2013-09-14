@@ -3,6 +3,8 @@ package me.kieranwallbanks.barrymore;
 import me.kieranwallbanks.barrymore.command.CommandListener;
 import me.kieranwallbanks.barrymore.configuration.Configuration;
 import me.kieranwallbanks.barrymore.mysql.MySQL;
+import me.kieranwallbanks.barrymore.registration.RegistrationChecker;
+import me.kieranwallbanks.barrymore.registration.defaults.RCAllowAll;
 import me.kieranwallbanks.barrymore.theme.ThemeManager;
 import me.kieranwallbanks.barrymore.user.UserManager;
 import org.jooq.DSLContext;
@@ -19,6 +21,8 @@ public class Barrymore {
     private final ThemeManager themeManager;
     private final CommandListener commandListener;
     private final UserManager userManager;
+
+    private RegistrationChecker registrationChecker = new RCAllowAll();
 
     public static void main(String[] args) {
         INSTANCE = new Barrymore();
@@ -109,8 +113,31 @@ public class Barrymore {
         return commandListener;
     }
 
+    /**
+     * Gets the {@link UserManager} currently in use
+     *
+     * @return sigh...
+     */
     public UserManager getUserManager() {
         return userManager;
+    }
+
+    /**
+     * I'm not even going to bother
+     *
+     * @return double sigh
+     */
+    public RegistrationChecker getRegistrationChecker() {
+        return registrationChecker;
+    }
+
+    /**
+     * Sets the {@link RegistrationChecker}
+     *
+     * @param checker the checker
+     */
+    public void setRegistrationChecker(RegistrationChecker checker) {
+        registrationChecker = checker;
     }
 
 }

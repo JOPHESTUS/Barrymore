@@ -1,15 +1,5 @@
 package me.kieranwallbanks.barrymore.command;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-import static me.kieranwallbanks.barrymore.mysql.Tables.*;
-
 import me.kieranwallbanks.barrymore.Barrymore;
 import me.kieranwallbanks.barrymore.theme.Theme;
 import me.kieranwallbanks.barrymore.util.BukkitDevUtilities;
@@ -19,6 +9,10 @@ import me.kieranwallbanks.barrymore.util.ReflectionsUtilities;
 import org.pircbotx.User;
 import org.pircbotx.hooks.ListenerAdapter;
 import org.pircbotx.hooks.events.PrivateMessageEvent;
+
+import java.util.*;
+
+import static me.kieranwallbanks.barrymore.mysql.Tables.USERS;
 
 /**
  * Default listeners
@@ -70,12 +64,12 @@ public class CommandListener extends ListenerAdapter {
 
     @Override
     public void onPrivateMessage(PrivateMessageEvent event) throws Exception {
-        if(!barrymore.isUserRegistered(event.getUser())) {
+        if(barrymore.getUserManager().getUser(event.getUser().getNick()) != null) {
             if(userRegistration.containsKey(event.getUser().getNick())) {
                 handleRegistrationAttempt(event);
             } else if(event.getMessage().equalsIgnoreCase("register")) {  // User registration
-                if(!barrymore.isOpenForRegistration()) {
-                    event.getUser().sendMessage("One is not accepting new user registrations at this point in time. Please try again later.");
+                if(!barrymore.getRegistrationChecker().canRegister(event.getUser())) {
+                    return;
                 } else if(userRegistration.containsKey(event.getUser().getNick())) {
                     handleRegistrationAttempt(event);
                 } else {
