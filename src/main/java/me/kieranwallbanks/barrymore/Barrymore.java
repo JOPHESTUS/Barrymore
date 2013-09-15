@@ -2,6 +2,7 @@ package me.kieranwallbanks.barrymore;
 
 import me.kieranwallbanks.barrymore.command.CommandListener;
 import me.kieranwallbanks.barrymore.configuration.Configuration;
+import me.kieranwallbanks.barrymore.dbo.DBOFactory;
 import me.kieranwallbanks.barrymore.fbo.FBOFactory;
 import me.kieranwallbanks.barrymore.mysql.MySQL;
 import me.kieranwallbanks.barrymore.registration.RegistrationChecker;
@@ -23,6 +24,7 @@ public class Barrymore {
     private final CommandListener commandListener;
     private final UserManager userManager;
     private final FBOFactory fboFactory;
+    private final DBOFactory dboFactory;
 
     private RegistrationChecker registrationChecker = new RCAllowAll();
 
@@ -38,6 +40,7 @@ public class Barrymore {
         userManager = new UserManager(this);
         commandListener = new CommandListener(this);
         fboFactory = new FBOFactory();
+        dboFactory = new DBOFactory();
 
         try {
             bot.setName(config.IRC_Nickname);
@@ -150,6 +153,15 @@ public class Barrymore {
      */
     public FBOFactory getFBOFactory() {
         return fboFactory;
+    }
+
+    /**
+     * Gets the {@link DBOFactory} currently in use
+     *
+     * @return the factory
+     */
+    public DBOFactory getDBOFactory() {
+        return dboFactory;
     }
 
 }
