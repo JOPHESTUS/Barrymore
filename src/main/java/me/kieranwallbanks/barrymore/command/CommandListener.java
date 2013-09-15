@@ -2,7 +2,6 @@ package me.kieranwallbanks.barrymore.command;
 
 import me.kieranwallbanks.barrymore.Barrymore;
 import me.kieranwallbanks.barrymore.theme.Theme;
-import me.kieranwallbanks.barrymore.util.BukkitDevUtilities;
 import me.kieranwallbanks.barrymore.util.EncryptionUtilities;
 import me.kieranwallbanks.barrymore.util.LangUtilities;
 import me.kieranwallbanks.barrymore.util.ReflectionsUtilities;
@@ -49,6 +48,15 @@ public class CommandListener extends ListenerAdapter {
             e.printStackTrace(); // TODO better exception handling. Maybe email me?
             System.exit(1);
         }
+    }
+
+    /**
+     * Gets all registered commands
+     *
+     * @return the commands
+     */
+    public SortedSet<BaseCommand> getCommands() {
+        return commands;
     }
 
     /**
@@ -189,7 +197,7 @@ public class CommandListener extends ListenerAdapter {
             case 5:
                 String message5 = event.getMessage().toLowerCase();
                 if(LangUtilities.isAffirmative(message5)) {
-                    event.getUser().sendMessage("Wonderful. So you are " + BukkitDevUtilities.getUsernameFromAPIKey(userRegistrationInformation.get(event.getUser().getNick()).DBO_API) + " on Bukkit Dev. Is that correct?");
+                    event.getUser().sendMessage("Wonderful. So you are " + barrymore.getDBOFactory().getUsernameFromAPIKey(userRegistrationInformation.get(event.getUser().getNick()).DBO_API) + " on Bukkit Dev. Is that correct?");
                     userRegistration.put(event.getUser().getNick(), 6);
                 } else if(LangUtilities.isDissenting(message5)) {
                     event.getUser().sendMessage("That is a shame. What is your Bukkit Dev API key?");
