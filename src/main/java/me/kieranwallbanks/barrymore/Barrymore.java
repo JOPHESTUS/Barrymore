@@ -50,7 +50,7 @@ public class Barrymore {
             bot.setName(config.IRC_Nickname);
             bot.setLogin("Barrymore");
             bot.identify(config.IRC_NickServPass);
-            bot.setVerbose(true);
+            bot.setVerbose(false);
             bot.setCapEnabled(true);
             bot.connect(config.IRC_DefServer);
             bot.joinChannel(config.IRC_DefChannel);
