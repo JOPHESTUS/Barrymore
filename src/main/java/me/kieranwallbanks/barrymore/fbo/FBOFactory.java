@@ -9,7 +9,6 @@ import org.apache.xmlrpc.client.XmlRpcCommonsTransportFactory;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,15 +69,6 @@ public class FBOFactory {
         userMap.put(username, new FBOUser(this, httpClient));
 
         return userMap.get(username);
-    }
-
-    /**
-     * Gets all users
-     *
-     * @return the users
-     */
-    public Collection<FBOUser> getUsers() {
-        return userMap.values();
     }
 
 }
