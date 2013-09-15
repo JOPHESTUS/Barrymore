@@ -41,7 +41,7 @@ public class SetRegistrationCheckerCommand extends BaseCommand {
                     } else if(message.equalsIgnoreCase("person check")) {
                         barrymore.setRegistrationChecker(new RCPersonCheck(barrymore, sender));
                     }
-                    sender.sendMessage(theme.RC_CHANGE_CHECK());
+                    sender.sendMessage(theme.RC_CHANGED());
                 }
 
             });
