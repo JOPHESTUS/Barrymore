@@ -30,29 +30,33 @@ public class Theme {
     }
 
     // START GENERAL
-    public String EXIT()                  { return get("Exit"); }
-    public String AUTH_NEEDED()           { return get("AuthNeeded"); }
-    public String AUTH_ATTEMPTING()       { return get("AuthAttempting"); }
-    public String AUTH_FAILED()           { return get("AuthFailed"); }
+    public String EXIT()                         { return get("Exit"); }
+    public String AUTH_NEEDED()                  { return get("AuthNeeded"); }
+    public String AUTH_ATTEMPTING()              { return get("AuthAttempting"); }
+    public String AUTH_FAILED()                  { return get("AuthFailed"); }
 
     // START COMMAND
-    public String COMMAND_CONFIRMATION()  { return get("CommandConfirmation"); }
-    public String COMMAND_REJECTION()     { return get("CommandRejection"); }
-    public String COMMAND_CONFUSION()     { return get("CommandConfusion"); }
-    public String COMMAND_NOT_FOUND()     { return get("CommandNotFound");}
-    public String NO_PERMISSION_MESSAGE() { return get("NoPermissionMessage"); }
+    public String COMMAND_CONFIRMATION()         { return get("CommandConfirmation"); }
+    public String COMMAND_REJECTION()            { return get("CommandRejection"); }
+    public String COMMAND_CONFUSION()            { return get("CommandConfusion"); }
+    public String COMMAND_NOT_FOUND()            { return get("CommandNotFound");}
+    public String NO_PERMISSION_MESSAGE()        { return get("NoPermissionMessage"); }
 
     // START LIST THEMES
-    public String THEME_LIST()            { return get("ThemeList"); }
+    public String THEME_LIST()                   { return get("ThemeList"); }
 
     // START THEME CHANGE
-    public String THEME_CHANGER_CHECK()   { return get("ThemeChangeCheck"); }
-    public String THEME_DOESNT_EXIST()    { return get("ThemeDoesntExist"); }
-    public String THEME_CHANGED()         { return get("ThemeChanged"); }
+    public String THEME_CHANGER_CHECK()          { return get("ThemeChangeCheck"); }
+    public String THEME_DOESNT_EXIST()           { return get("ThemeDoesntExist"); }
+    public String THEME_CHANGED()                { return get("ThemeChanged"); }
 
     // START RC CHANGE
-    public String RC_CHANGE_CHECK()       { return get("RCChangeCheck"); }
-    public String RC_CHANGED()            { return get("RCChanged"); }
+    public String RC_CHANGE_CHECK()              { return get("RCChangeCheck"); }
+    public String RC_CHANGED()                   { return get("RCChanged"); }
+
+    // START NOTIFICATION
+    public String NOTIFICATION_UNREAD_FBO_MAIL() { return get("NotificationUnreadFBOMail"); }
+    public String NOTIFICATION_UNREAD_DBO_MAIL() { return get("NotificationUnreadDBOMail"); }
 
     // START PRIVATE
     private String get(String string) {

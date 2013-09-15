@@ -35,6 +35,15 @@ public class UserManager {
     }
 
     /**
+     * Gets all users
+     *
+     * @return all users
+     */
+    public Collection<User> getUsers() {
+        return users;
+    }
+
+    /**
      * Gets a user by their irc name
      *
      * @param ircName the irc name

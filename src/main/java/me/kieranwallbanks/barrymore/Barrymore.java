@@ -7,12 +7,15 @@ import me.kieranwallbanks.barrymore.fbo.FBOFactory;
 import me.kieranwallbanks.barrymore.mysql.MySQL;
 import me.kieranwallbanks.barrymore.registration.RegistrationChecker;
 import me.kieranwallbanks.barrymore.registration.defaults.RCAllowAll;
+import me.kieranwallbanks.barrymore.task.BTimerTask;
 import me.kieranwallbanks.barrymore.theme.ThemeManager;
 import me.kieranwallbanks.barrymore.user.UserManager;
+import me.kieranwallbanks.barrymore.util.ReflectionsUtilities;
 import org.jooq.DSLContext;
 import org.pircbotx.PircBotX;
 
 import java.io.File;
+import java.util.Timer;
 
 public class Barrymore {
     private static Barrymore INSTANCE;
@@ -25,6 +28,7 @@ public class Barrymore {
     private final UserManager userManager;
     private final FBOFactory fboFactory;
     private final DBOFactory dboFactory;
+    private final Timer timer = new Timer();
 
     private RegistrationChecker registrationChecker = new RCAllowAll();
 
@@ -57,6 +61,16 @@ public class Barrymore {
         }
 
         userManager.reloadUsers();
+
+        try {
+            for(Class<? extends BTimerTask> clazz : ReflectionsUtilities.getSubtypesOf(BTimerTask.class, "me.kieranwallbanks.barrymore.task.defaults", ClassLoader.getSystemClassLoader())) {
+                BTimerTask task = clazz.newInstance();
+                timer.scheduleAtFixedRate(task, 60000, 60000);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // TODO better exception handling. Maybe email me?
+            System.exit(1);
+        }
     }
 
     /**

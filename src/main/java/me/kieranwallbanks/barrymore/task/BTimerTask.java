@@ -8,7 +8,7 @@ import java.util.TimerTask;
  * A special version of {@link TimerTask} with some more features.
  */
 public abstract class BTimerTask extends TimerTask {
-    private final Barrymore barrymore;
+    protected final Barrymore barrymore;
 
     /**
      * Constructs a new instance of {@link BTimerTask}
