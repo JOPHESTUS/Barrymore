@@ -30,7 +30,10 @@ public class Theme {
     }
 
     // START GENERAL
-    public String EXIT() { return get("Exit"); }
+    public String EXIT()                  { return get("Exit"); }
+    public String AUTH_NEEDED()           { return get("AuthNeeded"); }
+    public String AUTH_ATTEMPTING()       { return get("AuthAttempting"); }
+    public String AUTH_FAILED()           { return get("AuthFailed"); }
 
     // START COMMAND
     public String COMMAND_CONFIRMATION()  { return get("CommandConfirmation"); }

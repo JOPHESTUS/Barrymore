@@ -61,6 +61,19 @@ public class ThemeManager {
     }
 
     /**
+     * Gets the theme a user has chosen to use.
+     * This function will never return {@code null}.
+     *
+     * @param user the user
+     *
+     * @return the theme
+     */
+    public Theme getUsersTheme(me.kieranwallbanks.barrymore.user.User user) {
+        Theme theme = themeMap.get(user.getTheme());
+        return theme == null ? themeMap.get("british butler") : theme;
+    }
+
+    /**
      * Gets a {@link Theme} by its name
      *
      * @param name the theme name

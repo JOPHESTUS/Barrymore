@@ -6,7 +6,7 @@ import me.kieranwallbanks.barrymore.mysql.tables.records.UsersRecord;
  * Represents a user
  */
 public class User {
-    private final UsersRecord record;
+    protected final UsersRecord record;
 
     protected User(UsersRecord record) {
         this.record = record;

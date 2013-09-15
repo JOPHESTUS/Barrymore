@@ -8,6 +8,7 @@ import me.kieranwallbanks.barrymore.util.EncryptionUtilities;
  */
 public class DecryptedUser extends User {
     private final String fbo, fboPass, dboApi;
+    private final long creationTime;
 
     protected DecryptedUser(UsersRecord record, String masterPassword) throws Exception {
         super(record);
@@ -15,6 +16,7 @@ public class DecryptedUser extends User {
         fbo = EncryptionUtilities.decrypt(getFBOUsername(), getIRCName().getBytes(), masterPassword);
         fboPass = EncryptionUtilities.decrypt(getFBOPassword(), getIRCName().getBytes(), masterPassword);
         dboApi = EncryptionUtilities.decrypt(getDBOAPIKey(), getIRCName().getBytes(), masterPassword);
+        creationTime = System.currentTimeMillis();
     }
 
     public String getDecryptedFboUsername() {
@@ -27,6 +29,10 @@ public class DecryptedUser extends User {
 
     public String getDecryptedDboApiKey() {
         return dboApi;
+    }
+
+    public long getCreationTime() {
+        return creationTime;
     }
 
 }

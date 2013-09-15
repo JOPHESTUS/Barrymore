@@ -2,6 +2,7 @@ package me.kieranwallbanks.barrymore;
 
 import me.kieranwallbanks.barrymore.command.CommandListener;
 import me.kieranwallbanks.barrymore.configuration.Configuration;
+import me.kieranwallbanks.barrymore.fbo.FBOFactory;
 import me.kieranwallbanks.barrymore.mysql.MySQL;
 import me.kieranwallbanks.barrymore.registration.RegistrationChecker;
 import me.kieranwallbanks.barrymore.registration.defaults.RCAllowAll;
@@ -21,6 +22,7 @@ public class Barrymore {
     private final ThemeManager themeManager;
     private final CommandListener commandListener;
     private final UserManager userManager;
+    private final FBOFactory fboFactory;
 
     private RegistrationChecker registrationChecker = new RCAllowAll();
 
@@ -35,6 +37,7 @@ public class Barrymore {
         themeManager = new ThemeManager(this);
         userManager = new UserManager(this);
         commandListener = new CommandListener(this);
+        fboFactory = new FBOFactory();
 
         try {
             bot.setName(config.IRC_Nickname);
@@ -138,6 +141,15 @@ public class Barrymore {
      */
     public void setRegistrationChecker(RegistrationChecker checker) {
         registrationChecker = checker;
+    }
+
+    /**
+     * Gets the {@link FBOFactory} currently in use
+     *
+     * @return the fbo factory
+     */
+    public FBOFactory getFBOFactory() {
+        return fboFactory;
     }
 
 }
